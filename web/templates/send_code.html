@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&amp;display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/fonts/feather-font/css/iconfont.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/demo1/style.min.css' %}">
+
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}"/>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="page-wrapper full-page">
+   <img class="bg_login" src="{% static 'assets/images/back_spring.jpg' %}" alt="">
+        <div class="page-content d-flex align-items-center justify-content-center">
+
+            <div class="row w-100 mx-0 auth-page">
+                <div class="col-md-8 col-xl-6 mx-auto">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-8 ps-md-0" style="margin: 0 auto;">
+                                <div class="auth-form-wrapper px-4 py-5">
+                                    <a href="#" class="noble-ui-logo d-block mb-2">Registration page 2</a>
+                                    <h5 class="text-muted fw-normal mb-4">Please enter code sent to your phone number: <b style="color: black">+{{ phone_number }}</b></h5>
+                                    <form method="POST" class="forms-sample" action="{% url 'check_code' phone_number %}">
+                                        {% csrf_token %}
+
+                                        {% if error_message %}
+                                            <div class="alert alert-danger">
+                                                <strong>Error</strong> {{ error_message }}
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="mb-3">
+                                            <label for="code" class="form-label">code(4 digits) <br> just for testing your code is {{ ver_code_obj.code }}</label>
+                                            <input type="text" class="form-control" name="code"
+                                                   id="code" pattern="[0-9]{4}"
+                                                   maxlength="4"
+                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                                   placeholder="9989" required>
+                                        </div>
+
+                                        <div>
+                                            <button class="btn btn-primary me-2 mb-2 mb-md-0 text-white"
+                                                    type="submit">submit
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'assets/vendors/core/core.js' %}"></script>
+<script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
+<script src="{% static 'assets/js/template.js' %}"></script>
+
+
+</body>
+
+</html>
