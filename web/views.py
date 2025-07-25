@@ -14,8 +14,6 @@ from web.models import VerificationCode
 
 def register(request):
     if request.user.is_authenticated:
-        print(request.user)
-        print(request.session['login_status'])
 
         return redirect('profile')
 
@@ -64,7 +62,6 @@ def send_code(request):
 
 
 def check_code(request, phone_number):
-    error_message = ''
     code = int(request.POST['code'])
 
     if VerificationCode.objects.filter(phone_number=phone_number).exists():

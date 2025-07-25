@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     'web',
 
     # external_apps
+    'rest_framework',
+    'drf_yasg',
 
 ]
 
@@ -75,6 +77,15 @@ DATABASES = {
 }
 
 
+INSTALLED_APPS += ['rest_framework.authtoken']
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -123,3 +134,13 @@ MEDIA_ROOT = str(BASE_DIR / 'files/')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
