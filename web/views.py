@@ -14,7 +14,6 @@ from web.models import VerificationCode
 
 def register(request):
     if request.user.is_authenticated:
-
         print(request.user)
         print(request.session['login_status'])
 
@@ -103,6 +102,10 @@ def profile(request):
     user = request.user
     code = request.POST.get('invite_code')
     error_message = ''
+    referals = []
+
+    if user.invite_code:
+        referals = User.objects.filter(activated_invite_code=user.invite_code)
 
     if request.POST:
         invite_codes = User.objects.exclude(id=user.id).values_list('invite_code', flat=True)
@@ -114,6 +117,21 @@ def profile(request):
 
     context = {
         'user': user,
+        'referals': referals,
         'error_message': error_message,
     }
     return render(request, 'profile.html', context=context)
+
+
+@login_required
+def referals(request):
+    user = request.user
+    referals_list = []
+
+    if user.invite_code:
+        referals_list = User.objects.filter(activated_invite_code=user.invite_code)
+
+    context = {
+        'referals': referals_list,
+    }
+    return render(request, 'referals.html', context=context)

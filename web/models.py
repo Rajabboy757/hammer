@@ -4,6 +4,6 @@ from django.db import models
 
 
 class VerificationCode(models.Model):
-    code = models.IntegerField(max_length=4)
+    code = models.IntegerField()
     phone_number = models.CharField(max_length=12)
     valid_for = models.DateTimeField()

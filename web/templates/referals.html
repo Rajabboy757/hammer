@@ -1,0 +1,21 @@
+<div class="table-responsive pt-3">
+    <table id="fan_mavzulari_table" class="table table-bordered sortable">
+
+        <thead>
+            <tr style="background-color: #364958;">
+                <th style="color: white; text-align: center; vertical-align: middle">№</th>
+                <th style="color: white; text-align: center; vertical-align: middle">referals</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in referals %}
+                <tr>
+                    <td style="text-align: center">{{ forloop.counter }}</td>
+                    <td style="text-align: center">+{{ user.phone_number }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
