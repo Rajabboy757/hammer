@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 from decouple import config
 
@@ -10,8 +11,6 @@ DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = []
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -23,6 +22,9 @@ INSTALLED_APPS = [
     # my apps
     'api',
     'web',
+
+    # external_apps
+
 ]
 
 MIDDLEWARE = [
@@ -33,9 +35,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_auto_logout.middleware.auto_logout',
 ]
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+AUTO_LOGOUT = {'IDLE_TIME': timedelta(hours=1)}
 
 ROOT_URLCONF = 'config.urls'
+
+AUTH_USER_MODEL = 'api.User'
 
 TEMPLATES = [
     {
@@ -67,8 +75,6 @@ DATABASES = {
 }
 
 
-# Password validation
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -84,6 +90,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# LOGIN
+LOGIN_REDIRECT_URL = 'profile'
+LOGOUT_REDIRECT_URL = 'register'
+
+LOGIN_URL = 'register'
 
 # Internationalization
 
