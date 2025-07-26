@@ -3,10 +3,12 @@ import string
 from datetime import timedelta
 
 from django.utils import timezone
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from web.models import VerificationCode
 from .serializers import *
 
 
@@ -14,6 +16,10 @@ from .serializers import *
 
 
 class SendCodeView(APIView):
+    @swagger_auto_schema(
+        request_body=SendCodeSerializer,
+        operation_description="Send a verification code to phone number"
+    )
     def post(self, request):
         serializer = SendCodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -32,6 +38,10 @@ class SendCodeView(APIView):
 
 
 class VerifyCodeView(APIView):
+    @swagger_auto_schema(
+        request_body=VerifyCodeSerializer,
+        operation_description="Verify a verification code and get token "
+    )
     def post(self, request):
         serializer = VerifyCodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -22,13 +22,13 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
     re_path(r'^files/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     path('admin123/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
+    # path('api-auth/', include('rest_framework.urls')),
     path('api/', include('api.urls')),
     path('', include('web.urls')),
 ]
