@@ -78,6 +78,10 @@ class ProfileView(APIView):
 class ActivateInviteCodeView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        request_body=InviteCodeActivateSerializer,
+        operation_description="Activate invitors invite code"
+    )
     def post(self, request):
         serializer = InviteCodeActivateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -86,17 +90,16 @@ class ActivateInviteCodeView(APIView):
         if code == request.user.invite_code:
             return Response({"error": "You can't activate your own code"}, status=400)
 
-        try:
-            inviter = User.objects.get(invite_code=code)
-        except User.DoesNotExist:
-            return Response({"error": "Invalid invite code"}, status=400)
-
         if request.user.activated_invite_code:
-            return Response({"error": "Invite code already used"}, status=400)
+            return Response({"error": "Invite code already activated"}, status=400)
 
-        request.user.activated_invite_code = code
-        request.user.save()
-        return Response({"message": "Invite activated"})
+        invite_codes = User.objects.exclude(id=request.user.id).values_list('invite_code', flat=True)
+        if code in invite_codes:
+            request.user.activated_invite_code = code
+            request.user.save()
+            return Response({"message": "Invite activated"})
+        else:
+            return Response({"error": "Invalid invite code"}, status=400)
 
 
 class ReferralListView(APIView):

@@ -99,10 +99,7 @@ def profile(request):
     user = request.user
     code = request.POST.get('invite_code')
     error_message = ''
-    referals = []
-
-    if user.invite_code:
-        referals = User.objects.filter(activated_invite_code=user.invite_code)
+    referals = User.objects.filter(activated_invite_code=user.invite_code)
 
     if request.POST:
         invite_codes = User.objects.exclude(id=user.id).values_list('invite_code', flat=True)
